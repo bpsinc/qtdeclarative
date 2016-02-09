@@ -77,7 +77,7 @@ debug_and_release {
         GENERATEDDIR = $$GENERATEDDIR/release
     }
 }
-INCLUDEPATH += $$GENERATEDDIR
+INCLUDEPATH += $$OUT_PWD/$$GENERATEDDIR
 
 retgen.output = $$GENERATEDDIR/RegExpJitTables.h
 retgen.script = $$PWD/create_regex_tables
