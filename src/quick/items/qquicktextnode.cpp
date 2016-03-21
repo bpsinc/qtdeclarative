@@ -90,15 +90,8 @@ QSGGlyphNode *QQuickTextNode::addGlyphs(const QPointF &position, const QGlyphRun
 {
     QSGRenderContext *sg = QQuickItemPrivate::get(m_ownerElement)->sceneGraphRenderContext();
     QRawFont font = glyphs.rawFont();
-    bool preferNativeGlyphNode = m_useNativeRenderer;
-    if (!preferNativeGlyphNode) {
-        QRawFontPrivate *fontPriv = QRawFontPrivate::get(font);
-        if (fontPriv->fontEngine->hasUnreliableGlyphOutline())
-            preferNativeGlyphNode = true;
-        else
-            preferNativeGlyphNode = !QFontDatabase().isSmoothlyScalable(font.familyName(), font.styleName());
-    }
-
+    bool smoothScalable = QFontDatabase().isSmoothlyScalable(font.familyName(), font.styleName());
+    bool preferNativeGlyphNode = m_useNativeRenderer || !smoothScalable;
     QSGGlyphNode *node = sg->sceneGraphContext()->createGlyphNode(sg, preferNativeGlyphNode);
 
     node->setOwnerElement(m_ownerElement);
